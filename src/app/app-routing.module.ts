@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
   { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule', canActivate: [AuthGuard], },
   { path: 'prayer-requests', loadChildren: './pages/prayer-requests/prayer-requests.module#PrayerRequestsPageModule', canActivate: [AuthGuard], },
+  { path: 'message', loadChildren: './pages/message/message.module#MessagePageModule', canActivate: [AuthGuard], },
 ];
 
 @NgModule({

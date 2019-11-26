@@ -1,0 +1,32 @@
+.chat{
+  display:flex;
+  flex-direction: column;
+
+  .me{
+    position: relative;
+    max-width: 80%;
+    align-self: flex-end;
+    padding: 6px, 10px, 7px;
+    background-color: #58ACDC;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .you{
+    position: relative;
+    max-width: 80%;
+    align-self: flex-start;
+    padding: 6px, 10px, 7px;
+    background-color: #58DCBC;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+
+
+    .name{
+      font-size: small;
+      font-weight: bold;
+    }
+  }
+}

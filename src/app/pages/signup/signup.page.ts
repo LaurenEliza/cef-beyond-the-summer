@@ -3,6 +3,9 @@ import { AuthService } from '../../services/user/auth.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +22,9 @@ export class SignupPage implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    public fs:AngularFirestore,
+    public af:AngularFireAuth
   ) {
     this.signupForm = this.formBuilder.group({
       email: [
@@ -45,10 +50,12 @@ export class SignupPage implements OnInit {
       const email: string = signupForm.value.email;
       const password: string = signupForm.value.password;
 
+
       this.authService.signupUser(email, password).then(
         () => {
           this.loading.dismiss().then(() => {
             this.router.navigateByUrl('home');
+            localStorage.setItem('userid', this.af.auth.currentUser.uid);
           });
         },
         error => {

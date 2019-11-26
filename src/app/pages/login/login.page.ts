@@ -3,6 +3,9 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/user/auth.service';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-login',
@@ -19,7 +22,9 @@ export class LoginPage implements OnInit {
     public alertCtrl: AlertController,
     private authService: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public fs:AngularFirestore,
+    public af:AngularFireAuth
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['',
@@ -49,6 +54,7 @@ export class LoginPage implements OnInit {
         () => {
           this.loading.dismiss().then(() => {
             this.router.navigateByUrl('home');
+            localStorage.setItem('userid', this.af.auth.currentUser.uid);
           });
         },
         error => {

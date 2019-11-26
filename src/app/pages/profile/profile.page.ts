@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 export class ProfilePage implements OnInit {
 
   public userProfile: any;
-  public birthDate: Date;
 
   constructor(
     private alertCtrl: AlertController,
@@ -31,51 +30,38 @@ export class ProfilePage implements OnInit {
         .get()
         .then(userProfileSnapshot => {
             this.userProfile = userProfileSnapshot.data();
-            this.birthDate = userProfileSnapshot.data().birthDate;
         });
     }
 
   logOut(): void {
     this.authService.logoutUser().then( () => {
       this.router.navigateByUrl('login');
+      localStorage.removeItem('user');
     });
   }
 
   async updateName(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      subHeader: 'Your first name & last name',
+      subHeader: 'Your name or nickname',
       inputs: [
         {
           type: 'text',
-          name: 'firstName',
+          name: 'Name',
           placeholder: 'Your first name',
-          value: this.userProfile.firstName,
-        },
-        {
-          type: 'text',
-          name: 'lastName',
-          placeholder: 'Your last name',
-          value: this.userProfile.lastName,
-        },
+          value: this.userProfile.Name,
+        }
       ],
       buttons: [
         { text: 'Cancel' },
         {
           text: 'Save',
           handler: data => {
-            this.profileService.updateName(data.firstName, data.lastName);
+            this.profileService.updateName(data.Name);
           },
         },
       ],
     });
     await alert.present();
-  }
-
-  updateDOB(birthDate: string): void {
-    if (birthDate === undefined) {
-      return;
-    }
-    this.profileService.updateDOB(birthDate);
   }
 
   async updateEmail(): Promise<void> {

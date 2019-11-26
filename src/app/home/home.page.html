@@ -13,11 +13,11 @@
 
 <ion-content class="ion-padding">
 
-  <ion-button expand="block" color="primary" routerLink="/prayer-requests">
+  <ion-button *ngIf="isAdmin" expand="block" color="primary" routerLink="/prayer-requests">
     Prayer Requests
   </ion-button>
 
-  <ion-button expand="block" color="primary" routerLink="/group-chat">
+  <ion-button expand="block" color="primary" routerLink="/message">
     Group Chat
   </ion-button>
 

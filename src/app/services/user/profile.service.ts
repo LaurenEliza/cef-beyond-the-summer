@@ -3,6 +3,10 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +14,12 @@ export class ProfileService {
 
   public userProfile: firebase.firestore.DocumentReference;
   public currentUser: firebase.User;
+  yourProfile: any;
+  Name: any;
 
-  constructor() {
+
+  constructor(public fs:AngularFirestore, public af:AngularFireAuth) {
+    this.Name = firebase.firestore().doc(`/userProfile/${this.Name}`);
     firebase.auth().onAuthStateChanged(user =>
       {
         if (user) {
@@ -25,15 +33,26 @@ export class ProfileService {
     }
 
   getUserProfile(): firebase.firestore.DocumentReference {
+    console.log(this.yourProfile);
     return this.userProfile;
   }
 
-  updateName(firstName: string, lastName: string): Promise<any> {
-    return this.userProfile.update({ firstName, lastName });
-  }
-
-  updateDOB(birthDate: string): Promise<any> {
-    return this.userProfile.update({ birthDate });
+  updateName(Name: string) {
+    return firebase.auth().currentUser.updateProfile({
+      displayName: Name,
+    }).then(() => {
+      firebase
+        .firestore()
+        .doc(`/userProfile/${this.currentUser.uid}`)
+        .set({
+          email: this.currentUser.email,
+          Name: Name
+        });
+      console.log('Name Changed Successfully');
+    })
+    .catch(error => {
+      console.log('ERROR: ' + error.message);
+    });
   }
 
   updateEmail(newEmail: string, password: string): Promise<any> {
@@ -45,9 +64,13 @@ export class ProfileService {
     return this.currentUser
       .reauthenticateWithCredential(credential)
       .then(() => {
-        this.currentUser.updateEmail(newEmail).then(() => {
-          this.userProfile.update({ email: newEmail });
-        });
+        firebase
+          .firestore()
+          .doc(`/userProfile/${this.currentUser.uid}`)
+          .set({
+            email: newEmail,
+            Name: this.Name
+          });
       })
       .catch(error => {
         console.error(error);
