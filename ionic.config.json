@@ -1,7 +1,8 @@
 {
   "name": "cef-beyond-the-summer",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
