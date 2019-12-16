@@ -20,7 +20,7 @@ export class MessageService {
   send() {
     if(this.text != '') {
       this.fs.collection('chats').add({
-        Name: this.af.auth.currentUser.displayName,
+        displayName: this.af.auth.currentUser.displayName,
         Message: this.text,
         UserID: this.af.auth.currentUser.uid,
         Timestamp: firebase.firestore.FieldValue.serverTimestamp(),

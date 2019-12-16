@@ -24,8 +24,8 @@ export class ProfilePage implements OnInit {
     this.refreshUserProfile();
   }
 
-  refreshUserProfile() {
-    this.profileService
+  async refreshUserProfile(): Promise<void> {
+    return this.profileService
         .getUserProfile()
         .get()
         .then(userProfileSnapshot => {
@@ -42,13 +42,13 @@ export class ProfilePage implements OnInit {
 
   async updateName(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      subHeader: 'Your name or nickname',
+      subHeader: 'Your First and Last name',
       inputs: [
         {
           type: 'text',
-          name: 'Name',
-          placeholder: 'Your first name',
-          value: this.userProfile.Name,
+          name: 'displayName',
+          placeholder: 'Your Name',
+          value: this.userProfile.displayName,
         }
       ],
       buttons: [
@@ -56,7 +56,7 @@ export class ProfilePage implements OnInit {
         {
           text: 'Save',
           handler: data => {
-            this.profileService.updateName(data.Name);
+            this.profileService.updateName(data.displayName);
           },
         },
       ],

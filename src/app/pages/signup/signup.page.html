@@ -47,6 +47,24 @@
         <ion-label>Your password needs more than 6 characters.</ion-label>
       </ion-item>
 
+      <ion-item>
+        <ion-label position="stacked">Name</ion-label>
+        <ion-input
+          formControlName="displayName"
+          type="displayName"
+          placeholder="Your First and Last Name"
+          [class.invalid]="!signupForm.controls['displayName'].valid && signupForm.controls['displayName'].touched"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-item
+        class="error-message"
+        *ngIf="!signupForm.controls['displayName'].valid
+        && signupForm.controls['displayName'].touched"
+      >
+        <ion-label>Please enter name.</ion-label>
+      </ion-item>
+
       <ion-button
         expand="block"
         (click)="signupUser(signupForm)"

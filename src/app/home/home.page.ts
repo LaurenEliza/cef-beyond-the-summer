@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 //import { PrayerService } from '../services/prayer/prayer.service';
-//import { Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/user/auth.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,8 +12,16 @@ import { Component } from '@angular/core';
 export class HomePage {
 
   constructor(
-    //private router: Router,
+    private router: Router,
     //private prayerService: PrayerService
+    private authService: AuthService,
   ) {}
+
+  logOut(): void {
+    this.authService.logoutUser().then( () => {
+      this.router.navigateByUrl('login');
+      localStorage.removeItem('user');
+    });
+  }
 
 }

@@ -14,12 +14,11 @@ export class ProfileService {
 
   public userProfile: firebase.firestore.DocumentReference;
   public currentUser: firebase.User;
-  yourProfile: any;
-  Name: any;
+  displayName: any;
 
 
   constructor(public fs:AngularFirestore, public af:AngularFireAuth) {
-    this.Name = firebase.firestore().doc(`/userProfile/${this.Name}`);
+    this.displayName = firebase.firestore().doc(`/userProfile/${this.displayName}`);
     firebase.auth().onAuthStateChanged(user =>
       {
         if (user) {
@@ -33,21 +32,21 @@ export class ProfileService {
     }
 
   getUserProfile(): firebase.firestore.DocumentReference {
-    console.log(this.yourProfile);
     return this.userProfile;
   }
 
-  updateName(Name: string) {
+  updateName(displayName: string): Promise<any> {
     return firebase.auth().currentUser.updateProfile({
-      displayName: Name,
+      displayName: displayName,
     }).then(() => {
       firebase
         .firestore()
         .doc(`/userProfile/${this.currentUser.uid}`)
         .set({
           email: this.currentUser.email,
-          Name: Name
+          displayName: displayName
         });
+
       console.log('Name Changed Successfully');
     })
     .catch(error => {
@@ -69,7 +68,7 @@ export class ProfileService {
           .doc(`/userProfile/${this.currentUser.uid}`)
           .set({
             email: newEmail,
-            Name: this.Name
+            displayName: this.displayName
           });
       })
       .catch(error => {

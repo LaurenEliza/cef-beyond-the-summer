@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { ProfileService } from '../../services/user/profile.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private profileService: ProfileService) { }
 
   loginUser(
     email: string,
@@ -17,7 +18,7 @@ export class AuthService {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
-  signupUser(email: string, password: string): Promise<any> {
+  signupUser(email: string, password: string, displayName: string): Promise<any> {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -25,8 +26,10 @@ export class AuthService {
       firebase
         .firestore()
         .doc(`/userProfile/${newUserCredential.user.uid}`)
-        .set({ email });
+        .set({ email, displayName });
+      this.profileService.updateName(displayName);
     })
+
     .catch(error => {
       console.error(error);
       throw new Error(error);

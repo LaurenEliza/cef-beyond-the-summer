@@ -24,14 +24,14 @@
           <ion-col
             class="text-center"
             size="7"
-            *ngIf="userProfile?.Name"
+            *ngIf="userProfile?.displayName"
           >
-            {{userProfile?.Name}}
+            {{userProfile.displayName}}
           </ion-col>
           <ion-col
             size="7"
             class="placeholder-profile text-center"
-            *ngIf="!userProfile?.Name"
+            *ngIf="!userProfile?.displayName"
           >
             <span> Tap here to edit. </span>
           </ion-col>
@@ -46,7 +46,7 @@
         <ion-row>
           <ion-col class="text-left" size="5"> Email </ion-col>
           <ion-col class="text-center" size="7" *ngIf="userProfile?.email">
-            {{userProfile?.email}}
+            {{userProfile.email}}
           </ion-col>
           <ion-col
             size="7"

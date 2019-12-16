@@ -35,6 +35,10 @@ export class SignupPage implements OnInit {
         '',
         Validators.compose([Validators.minLength(6), Validators.required]),
       ],
+      displayName: [
+        '',
+        Validators.compose([Validators.minLength(4), Validators.required]),
+      ]
     });
   }
 
@@ -49,9 +53,10 @@ export class SignupPage implements OnInit {
     } else {
       const email: string = signupForm.value.email;
       const password: string = signupForm.value.password;
+      const displayName: string = signupForm.value.displayName;
 
 
-      this.authService.signupUser(email, password).then(
+      this.authService.signupUser(email, password, displayName).then(
         () => {
           this.loading.dismiss().then(() => {
             this.router.navigateByUrl('home');
